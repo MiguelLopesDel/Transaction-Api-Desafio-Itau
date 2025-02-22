@@ -18,12 +18,13 @@ public class StatisticService {
 
     public StatisticsResponse calculateTransactionStatistics(Long interval) {
         log.info("Started calculating transactions statistics");
+        long start = System.currentTimeMillis();
         List<TransactionRequest> transactions = service.findTransactionsInTime(interval);
         if (transactions.isEmpty())
             return new StatisticsResponse(0L, 0D, 0D, 0D, 0D);
         DoubleSummaryStatistics summary = transactions.stream()
                 .mapToDouble(TransactionRequest::value).summaryStatistics();
-        log.info("Successful in returning statistics");
+        log.info(String.format("Successful in returning statistics. Time to calculate statistics in millis: %d", (System.currentTimeMillis() - start)));
         return new StatisticsResponse(summary.getCount(), summary.getSum(), summary.getAverage(), summary.getMin(), summary.getMax());
     }
 
