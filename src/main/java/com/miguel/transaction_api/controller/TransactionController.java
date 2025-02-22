@@ -32,4 +32,15 @@ public class TransactionController {
         service.addTransaction(request);
         return ResponseEntity.status(CREATED).build();
     }
+
+    @DeleteMapping
+    @Operation(description = "Endpoint responsável por deletar todas as transações")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Transações deletadas com sucesso"),
+            @ApiResponse(responseCode = "500", description = "Erro interno")
+    })
+    public ResponseEntity<Void> clearTransactions() {
+        service.clearTransactions();
+        return ResponseEntity.ok().build();
+    }
 }
